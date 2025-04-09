@@ -1,0 +1,19 @@
+cloud-security-scout/
+├── infrastructure/           # IaC for AWS monitoring setup
+│   ├── aws_config.tf         # AWS Config rules
+│   ├── iam.tf                # Read-only IAM roles
+│   └── cloudtrail.tf         # Audit logging
+├── scanner/                  # Python-based scanner engine
+│   ├── scout_scanner.py      # ScoutSuite integration
+│   ├── compliance_checks/    # Custom checks (CIS, NIST)
+│   └── requirements.txt
+├── workflows/                # CI/CD pipelines
+│   └── github-actions.yml
+├── dashboard/                # Security dashboard (Optional)
+│   ├── app.py                # Flask/Streamlit UI
+│   └── assets/
+├── scripts/
+│   ├── run_scan.sh           # One-click scanner
+│   └── alert_to_slack.py     # Notification script
+├── README.md                 # Employer-focused docs
+└── .gitignore
