@@ -1,0 +1,32 @@
+name: Cloud Security Scan
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Daily scan
+  workflow_dispatch:
+
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/CloudSecurityScoutRole
+          aws-region: us-east-1
+
+      - name: Run ScoutSuite Scan
+        run: |
+          pip install -r scanner/requirements.txt
+          python scanner/scout_scanner.py
+          
+      - name: Upload Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: scout-report
+          path: scanner/reports/
